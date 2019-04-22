@@ -47,8 +47,10 @@ private:
 	/********************************/
 	/*  User Variables              */
 	/********************************/
-	std::vector<Vec2> rectangle = { Vec2(100, 100), Vec2(200, 100), Vec2(200, 200), Vec2(100, 200) };
+	std::vector<Vec2> rectangle1 = { Vec2(100, 100), Vec2(200, 100), Vec2(200, 200), Vec2(100, 200) };
+	std::vector<Vec2> rectangle2 = { Vec2(100, 100), Vec2(200, 100), Vec2(200, 200), Vec2(100, 200) };
 	CoordinateTransformer ct;
 	Camera cam;
 	Entity e;
+	Entity e2;
 };

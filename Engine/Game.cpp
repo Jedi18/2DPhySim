@@ -27,7 +27,8 @@ Game::Game( MainWindow& wnd )
 	gfx( wnd ),
 	ct(),
 	cam(Vec2(0.0f, 0.0f), 1.0f, ct, gfx),
-	e(Vec2(0.0f, 0.0f), rectangle, Colors::Black)
+	e(Vec2(0.0f, 0.0f), rectangle1, Colors::Black),
+	e2(Vec2(-200.0f, -200.0f), rectangle2, Colors::Green)
 {
 }
 
@@ -41,6 +42,38 @@ void Game::Go()
 
 void Game::UpdateModel()
 {
+	const float speed = 5.0f;
+
+	if (wnd.kbd.KeyIsPressed('W'))
+	{
+		cam.TranslateBy(Vec2(0.0f, -1.0f) * speed);
+	}
+	if (wnd.kbd.KeyIsPressed('A'))
+	{
+		cam.TranslateBy(Vec2(1.0f, 0.0f) * speed);
+	}
+	if (wnd.kbd.KeyIsPressed('S'))
+	{
+		cam.TranslateBy(Vec2(0.0f, 1.0f) * speed);
+	}
+	if (wnd.kbd.KeyIsPressed('D'))
+	{
+		cam.TranslateBy(Vec2(-1.0f, 0.0f) * speed);
+	}
+
+	if (!wnd.mouse.IsEmpty())
+	{
+		const auto e = wnd.mouse.Read();
+
+		if (e.GetType() == Mouse::Event::Type::WheelUp)
+		{
+			cam.ScaleBy(1.05f);
+		}
+		if (e.GetType() == Mouse::Event::Type::WheelDown)
+		{
+			cam.ScaleBy(0.95f);
+		}
+	}
 }
 
 void Game::ComposeFrame()
@@ -50,7 +83,6 @@ void Game::ComposeFrame()
 		gfx.DrawLine(Vec2(300, 300), Vec2(wnd.mouse.GetPosX(), wnd.mouse.GetPosY()), Colors::Red);
 	}
 	cam.Draw(e.GetDrawable());
-
-	//gfx.DrawPolyline(rectangle, Colors::Green);
+	cam.Draw(e2.GetDrawable());
 
 }

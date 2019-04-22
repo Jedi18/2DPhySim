@@ -1,8 +1,8 @@
 #include "Drawable.h"
 
-Drawable::Drawable(const std::vector<Vec2>& verts_in)
+Drawable::Drawable(const std::vector<Vec2> verts_in)
 	:
-	verts(verts_in)
+	verts(std::move(verts_in))
 {}
 
 void Drawable::Scale(float scale_in)
@@ -25,7 +25,13 @@ void Drawable::Translate(const Vec2 & translation_in)
 	translation += translation_in;
 }
 
-void Drawable::Render(Graphics & gfx) const
+void Drawable::Render(Graphics & gfx)
 {
+	for (auto& vert : verts)
+	{
+		vert.x *= scale_x;
+		vert.y *= scale_y;
+		vert += translation;
+	}
 	gfx.DrawPolyline(verts, Colors::Red);
 }
