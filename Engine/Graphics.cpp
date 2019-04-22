@@ -318,43 +318,14 @@ void Graphics::PutPixel( int x,int y,Color c )
 
 void Graphics::DrawLine(Vec2 p0, Vec2 p1, Color col)
 {
-	// y = mx + c
-	bool infinite = false;
-
 	float m;
 
-	if (p0.x == p1.x)
-	{
-		infinite = true;
-	}
+	m = (p1.y - p0.y) / (p1.x - p0.x);
 
-	m  = (p1.y - p0.x) / (p1.x - p0.x);
-	float c = p0.y - m * p0.x;
-
-	if (std::abs(m) >= 1)
+	if (std::abs(m) < 1 && p1.x != p0.x)
 	{
-		if (p0.y > p1.y)
-		{
-			std::swap(p0, p1);
-		}
+		float c = p0.y - m * p0.x;
 
-		for (int y = p0.y; y <= p1.y; y++)
-		{
-			float x;
-			if (infinite)
-			{
-				x = p0.x;
-			}
-			else
-			{
-				x = (y - c) / m;
-			}
-			
-			PutPixel(x, y, col);
-		}
-	}
-	else
-	{
 		if (p0.x > p1.x)
 		{
 			std::swap(p0, p1);
@@ -362,10 +333,36 @@ void Graphics::DrawLine(Vec2 p0, Vec2 p1, Color col)
 
 		for (int x = p0.x; x <= p1.x; x++)
 		{
-			int y = m * x + c;
+			float y = m * x + c;
 			PutPixel(x, y, col);
 		}
 	}
+	else
+	{
+		m = (p1.x - p0.x) / (p1.y - p0.y);
+		float c = p0.x - m * p0.y;
+
+		if (p0.y > p1.y)
+		{
+			std::swap(p0, p1);
+		}
+
+		for (int y = p0.y; y <= p1.y; y++)
+		{
+			float x = y * m + c;
+			PutPixel(x, y, col);
+		}
+	}
+}
+
+void Graphics::DrawPolyline(std::vector<Vec2>& verts, Color c)
+{
+	for (auto vert = verts.begin(); vert != std::prev(verts.end()); vert++)
+	{
+		DrawLine(*vert, *(vert + 1), c);
+	}
+
+	DrawLine(verts.back(), verts.front(), c);
 }
 
 

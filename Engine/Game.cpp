@@ -26,6 +26,10 @@ Game::Game( MainWindow& wnd )
 	wnd( wnd ),
 	gfx( wnd )
 {
+	rectangle.push_back(Vec2(100, 100));
+	rectangle.push_back(Vec2(200, 100));
+	rectangle.push_back(Vec2(200, 200));
+	rectangle.push_back(Vec2(100, 200));
 }
 
 void Game::Go()
@@ -46,4 +50,6 @@ void Game::ComposeFrame()
 	{
 		gfx.DrawLine(Vec2(300, 300), Vec2(wnd.mouse.GetPosX(), wnd.mouse.GetPosY()), Colors::Red);
 	}
+
+	gfx.DrawPolyline(rectangle, Colors::Green);
 }
