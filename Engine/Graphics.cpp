@@ -331,10 +331,10 @@ void Graphics::DrawLine(Vec2 p0, Vec2 p1, Color col)
 			std::swap(p0, p1);
 		}
 
-		for (int x = p0.x; x <= p1.x; x++)
+		for (int x = (int)p0.x; x <= p1.x; x++)
 		{
 			float y = m * x + c;
-			PutPixel(x, y, col);
+			PutPixel((int)x, (int)y, col);
 		}
 	}
 	else
@@ -347,22 +347,71 @@ void Graphics::DrawLine(Vec2 p0, Vec2 p1, Color col)
 			std::swap(p0, p1);
 		}
 
-		for (int y = p0.y; y <= p1.y; y++)
+		for (int y = (int)p0.y; y <= p1.y; y++)
 		{
 			float x = y * m + c;
-			PutPixel(x, y, col);
+			PutPixel((int)x, (int)y, col);
 		}
 	}
 }
 
-void Graphics::DrawPolyline(std::vector<Vec2>& verts, Color c)
+void Graphics::DrawPolyline(const std::vector<Vec2>& verts, Color c)
 {
+	//bool wentOutsideVisibleRegion = false;
+
 	for (auto vert = verts.begin(); vert != std::prev(verts.end()); vert++)
 	{
+		// implement later using camera boundaries
+
+		/*if (IsPointOutsideScreen(*vert))
+		{
+			// if next point is not outside screen
+			if (!IsPointOutsideScreen(*(vert + 1)))
+			{
+				Vec2 newPoint = CalculateBoundaryPoint(vert);
+			}
+		} */ 
+
 		DrawLine(*vert, *(vert + 1), c);
 	}
 
 	DrawLine(verts.back(), verts.front(), c);
+}
+
+bool Graphics::IsPointOutsideScreen(Vec2 & point)
+{
+	int point_x = (int)point.x;
+	int point_y = (int)point.y;
+
+	if (point_x < 0 || point_x >= Graphics::ScreenWidth || point_y < 0 || point_y >= Graphics::ScreenHeight)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+Vec2 Graphics::CalculateBoundaryPoint(std::vector<Vec2>::iterator vert)
+{
+	Vec2 p0 = *vert;
+	Vec2 p1 = *(vert + 1);
+
+	// find slope of line joining edge points of screen to point
+	// to figure out which line it will be touching if present in regions 1,3,7,9
+	//
+	// 1 | 2 | 3
+	// ---------
+	// 4 | 5 | 6
+	// ---------
+	// 7 | 8 | 9
+
+	// region 2
+	
+	// IMPLEMENT THIS LATER USING CAMERA BOUNDARIES
+
+	return p0;
 }
 
 

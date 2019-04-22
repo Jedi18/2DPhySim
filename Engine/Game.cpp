@@ -24,12 +24,11 @@
 Game::Game( MainWindow& wnd )
 	:
 	wnd( wnd ),
-	gfx( wnd )
+	gfx( wnd ),
+	ct(),
+	cam(Vec2(0.0f, 0.0f), 1.0f, ct, gfx),
+	e(Vec2(0.0f, 0.0f), rectangle, Colors::Black)
 {
-	rectangle.push_back(Vec2(100, 100));
-	rectangle.push_back(Vec2(200, 100));
-	rectangle.push_back(Vec2(200, 200));
-	rectangle.push_back(Vec2(100, 200));
 }
 
 void Game::Go()
@@ -50,6 +49,8 @@ void Game::ComposeFrame()
 	{
 		gfx.DrawLine(Vec2(300, 300), Vec2(wnd.mouse.GetPosX(), wnd.mouse.GetPosY()), Colors::Red);
 	}
+	cam.Draw(e.GetDrawable());
 
-	gfx.DrawPolyline(rectangle, Colors::Green);
+	//gfx.DrawPolyline(rectangle, Colors::Green);
+
 }
