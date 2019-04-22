@@ -53,4 +53,5 @@ private:
 	Camera cam;
 	Entity e;
 	Entity e2;
+	Entity ball;
 };

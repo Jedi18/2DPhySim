@@ -25,10 +25,9 @@ void Entity::ScaleBy(float scale_in)
 
 Drawable Entity::GetDrawable() const
 {
-	Drawable d(verts);
+	Drawable d(verts, c);
 	d.Scale(scale);
 	d.Translate(pos);
 	return d;
 }
-
 

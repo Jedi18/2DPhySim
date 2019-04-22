@@ -334,7 +334,11 @@ void Graphics::DrawLine(Vec2 p0, Vec2 p1, Color col)
 		for (int x = (int)p0.x; x <= p1.x; x++)
 		{
 			float y = m * x + c;
-			PutPixel((int)x, (int)y, col);
+
+			if (x >= 0 && x < Graphics::ScreenWidth && y >= 0 && y < Graphics::ScreenHeight)
+			{
+				PutPixel((int)x, (int)y, col);
+			}
 		}
 	}
 	else
@@ -350,7 +354,11 @@ void Graphics::DrawLine(Vec2 p0, Vec2 p1, Color col)
 		for (int y = (int)p0.y; y <= p1.y; y++)
 		{
 			float x = y * m + c;
-			PutPixel((int)x, (int)y, col);
+			
+			if (x >= 0 && x < Graphics::ScreenWidth && y >= 0 && y < Graphics::ScreenHeight)
+			{
+				PutPixel((int)x, (int)y, col);
+			}
 		}
 	}
 }

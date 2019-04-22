@@ -12,6 +12,9 @@ public:
 	void Draw(Drawable& d) const;
 	void TranslateBy(const Vec2& trans);
 	void ScaleBy(float scal);
+	const Vec2& GetCameraTranslation() const;
+	float GetCameraScale() const;
+
 private:
 	Vec2 camTranslation = { 0.0f, 0.0f };
 	float camScale = 1.0f;

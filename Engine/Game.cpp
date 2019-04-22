@@ -20,15 +20,17 @@
  ******************************************************************************************/
 #include "MainWindow.h"
 #include "Game.h"
+#include "Shapes.h"
 
-Game::Game( MainWindow& wnd )
+Game::Game(MainWindow& wnd)
 	:
-	wnd( wnd ),
-	gfx( wnd ),
+	wnd(wnd),
+	gfx(wnd),
 	ct(),
 	cam(Vec2(0.0f, 0.0f), 1.0f, ct, gfx),
-	e(Vec2(0.0f, 0.0f), rectangle1, Colors::Black),
-	e2(Vec2(-200.0f, -200.0f), rectangle2, Colors::Green)
+	e(Vec2(0.0f, 0.0f), rectangle1, Colors::Blue),
+	e2(Vec2(-200.0f, -200.0f), rectangle2, Colors::Green),
+	ball(Vec2(-300.0f, -200.0f), Shapes::MakeStar(30, 30, 10), Colors::Cyan)
 {
 }
 
@@ -74,15 +76,17 @@ void Game::UpdateModel()
 			cam.ScaleBy(0.95f);
 		}
 	}
+
+	ball.TranslateBy(Vec2(1.0f, 1.0f) * speed/2);
 }
 
 void Game::ComposeFrame()
 {
 	if (wnd.mouse.LeftIsPressed())
 	{
-		gfx.DrawLine(Vec2(300, 300), Vec2(wnd.mouse.GetPosX(), wnd.mouse.GetPosY()), Colors::Red);
+		gfx.DrawLine(Vec2(300, 300), Vec2((float)wnd.mouse.GetPosX(), (float)wnd.mouse.GetPosY()), Colors::Red);
 	}
 	cam.Draw(e.GetDrawable());
 	cam.Draw(e2.GetDrawable());
-
+	cam.Draw(ball.GetDrawable());
 }

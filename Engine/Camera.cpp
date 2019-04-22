@@ -25,3 +25,13 @@ void Camera::ScaleBy(float scal)
 {
 	camScale *= scal;
 }
+
+const Vec2 & Camera::GetCameraTranslation() const
+{
+	return camTranslation;
+}
+
+float Camera::GetCameraScale() const
+{
+	return camScale;
+}
